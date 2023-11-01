@@ -1,2 +1,3 @@
 # LensToZotero
-Transfers Lens publications in csv format to Zotero
+
+Transfer Lens publications in csv format to Zotero
