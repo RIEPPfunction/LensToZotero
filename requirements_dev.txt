@@ -1,1 +1,4 @@
 pip==23.3.1
+wheel==0.41.3
+twine==4.0.2
+pyzotero==1.5.18
