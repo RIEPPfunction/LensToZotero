@@ -4,6 +4,71 @@ import csv
 import json
 import codecs
 
+
+def get_feild(item, feild):
+    if item.get(itemTemplate_list[feild]):
+        if item[itemTemplate_list[feild]] != "NA":
+            return item[itemTemplate_list[feild]]
+    return ""
+
+
+def get_tags(item, feild):
+    tags = []
+    for i in itemTemplate_list[feild]:
+        if item.get(i):
+            if item[i] != "" and item[i] != "NA":
+                tags = tags + [{"tag": item[i]}]
+    return tags
+
+
+def get_pages(item, feild):
+    if item.get(itemTemplate_list[feild][0]):
+        start = item[itemTemplate_list[feild][0]]
+    else:
+        start = ""
+    if item.get(itemTemplate_list[feild][1]):
+        end = item[itemTemplate_list[feild][1]]
+    else:
+        end = ""
+    if start != "" and end != "" and start != "NA" and end != "NA":
+        return start+"-"+end
+    if start == "" or start == "NA":
+        return end
+    else:
+        return start
+
+
+def get_authors(item, feild):
+    author = []
+    if item.get(itemTemplate_list[feild]):
+        if item[itemTemplate_list[feild]] != "" and item[itemTemplate_list[feild]] != "NA":
+            for i in item[itemTemplate_list[feild]].split(";"):
+                author = author + [{"creatorType": "author", "firstName": ' '.join(
+                    i.split(" ")[:-1]), "lastName":i.split(" ")[-1]}]
+    return author
+
+
+def get_doc(doc_name, cwd):
+    """return the requested test document"""
+    with open(os.path.join(cwd, "LensToZotero", "%s" % doc_name), "r") as f:
+        return f.read()
+
+
+def csv_to_json(csvFile, jsonFile):
+    jsondict = {}
+    with codecs.open(csvFile, encoding='utf-8-sig') as csvfile:
+        csv_data = csv.DictReader(csvfile, delimiter=';')
+        jsondict["data"] = []
+
+        for rows in csv_data:
+            jsondict["data"].append(rows)
+
+    with codecs.open(jsonFile, 'w') as jsonfile:
+        jsonfile.write(json.dumps(jsondict["data"]))
+
+    return True
+
+
 itemType = {
     "": "journalArticle",
         "journal article": "journalArticle",
@@ -59,67 +124,6 @@ itemTemplate_list = {
     "tags": ["Label", "label_class", "label_cited"],
 }
 
-def get_feild(item, feild):
-    if item.get(itemTemplate_list[feild]):
-        if item[itemTemplate_list[feild]] != "NA":
-            return item[itemTemplate_list[feild]]
-    return ""
-
-
-def get_tags(item, feild):
-    tags = []
-    for i in itemTemplate_list[feild]:
-        if item.get(i):
-            if item[i] != "" and item[i] != "NA":
-                tags = tags + [{"tag": item[i]}]
-    return tags
-
-
-def get_pages(item, feild):
-    if item.get(itemTemplate_list[feild][0]):
-        start = item[itemTemplate_list[feild][0]]
-    else:
-        start = ""
-    if item.get(itemTemplate_list[feild][1]):
-        end = item[itemTemplate_list[feild][1]]
-    else:
-        end = ""
-    if start != "" and end != "" and start != "NA" and end != "NA":
-        return start+"-"+end
-    if start == "" or start == "NA":
-        return end
-    else:
-        return start
-
-
-def get_authors(item, feild):
-    author = []
-    if item.get(itemTemplate_list[feild]):
-        if item[itemTemplate_list[feild]] != "" and item[itemTemplate_list[feild]] != "NA":
-            for i in item[itemTemplate_list[feild]].split(";"):
-                author = author + [{"creatorType": "author", "firstName": ' '.join(
-                    i.split(" ")[:-1]), "lastName":i.split(" ")[-1]}]
-    return author
-
-
-def get_doc(doc_name, cwd):
-    """return the requested test document"""
-    with open(os.path.join(cwd, "Zotero", "%s" % doc_name), "r") as f:
-        return f.read()
-
-
-def csv_to_json(csvFile, jsonFile):
-    jsondict = {}
-    with codecs.open(csvFile, encoding='utf-8-sig') as csvfile:
-        csv_data = csv.DictReader(csvfile, delimiter=';')
-        jsondict["data"] = []
-
-        for rows in csv_data:
-            jsondict["data"].append(rows)
-
-    with codecs.open(jsonFile, 'w') as jsonfile:
-        jsonfile.write(json.dumps(jsondict["data"]))
-
 
 def transfer(file_name):
     library_id = 12823381
@@ -134,7 +138,7 @@ def transfer(file_name):
 
     cwd = os.path.dirname(os.path.realpath("C:/agri/LensToZotero/"))
 
-    doc = json.loads(get_doc(jsonfile,cwd))
+    doc = json.loads(get_doc(jsonfile, cwd))
 
     for item in doc:
         template = zot.item_template(itemType[item["Publication.Type"]])
@@ -143,4 +147,3 @@ def transfer(file_name):
                 template[key] = itemTemplate[key](item, key)
         list_template = zot.check_items([template])
         resp = zot.create_items(list_template)
-        print(resp)
