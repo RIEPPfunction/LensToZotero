@@ -50,7 +50,7 @@ def get_authors(item, feild):
 
 def get_doc(doc_name, cwd):
     """return the requested test document"""
-    with open(os.path.join(cwd, "LensToZotero", "%s" % doc_name), "r") as f:
+    with open(os.path.join(cwd, "%s" % doc_name), "r") as f:
         return f.read()
 
 
@@ -136,7 +136,8 @@ def transfer(file_name):
 
     csv_to_json(file_name, jsonfile)
 
-    cwd = os.path.dirname(os.path.realpath("C:/agri/LensToZotero/"))
+    # cwd = os.path.dirname(os.path.realpath("C:/agri/LensToZotero/"))
+    cwd = os.getcwd()
 
     doc = json.loads(get_doc(jsonfile, cwd))
 
