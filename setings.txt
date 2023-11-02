@@ -1,4 +1,0 @@
-filePath C:\agri\LensToZotero\test.csv
-library_id 12823381
-library_type user
-api_key lPlZV0aiYzZhWVmSZO6psgGA

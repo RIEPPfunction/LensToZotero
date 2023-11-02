@@ -7,7 +7,7 @@ requirements = ["ipython>=6", "requests>=2"]
 
 setup(
     name="LensToZotero",
-    version="0.1.1",
+    version="0.1.2",
     author="Kostuk Danill",
     author_email="kostukml@gmail.com",
     description="A package to transfer Lens publications in csv format to Zotero",
