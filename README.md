@@ -31,5 +31,5 @@ Example:
 ```python
 from LensToZotero.LensToZotero import transfer
 
-transfer("doc_name.csv")
+transfer("settings.txt")
 ```
