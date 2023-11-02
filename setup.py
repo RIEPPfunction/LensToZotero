@@ -3,7 +3,8 @@ from setuptools import setup, find_packages
 with open("README.md", "r") as readme_file:
     readme = readme_file.read()
 
-requirements = ["ipython>=6", "requests>=2"]
+requirements = ["pip==23.3.1", "wheel==0.41.3",
+                "twine==4.0.2", "pyzotero==1.5.18"]
 
 setup(
     name="LensToZotero",
