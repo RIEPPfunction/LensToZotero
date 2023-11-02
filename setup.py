@@ -8,7 +8,7 @@ requirements = ["pip==23.3.1", "wheel==0.41.3",
 
 setup(
     name="LensToZotero",
-    version="0.1.3",
+    version="0.1.4",
     author="Kostuk Danill",
     author_email="kostukml@gmail.com",
     description="A package to transfer Lens publications in csv format to Zotero",
