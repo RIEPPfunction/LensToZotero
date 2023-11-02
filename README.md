@@ -12,7 +12,7 @@ Transfer Lens publications in csv format to Zotero
 4. Are you accessing your own Zotero library? `library_type` is `'user'`
 5. Are you accessing a shared group library? `library_type` is `'group'`.
 
-Then create a file setting.txt:
+Then create a file settings.txt:
 
 ```txt
 filePath doc_name.csv
