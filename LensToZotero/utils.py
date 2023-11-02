@@ -60,11 +60,7 @@ def get_settings(doc_name, cwd=os.getcwd()):
     settigs = {}
     with open(os.path.join(cwd, "%s" % doc_name), "r") as fh:
         for line in fh:
-
-            # reads each line and trims of extra the spaces
-            # and gives only the valid words
             command, description = line.strip().split(None, 1)
-
             settigs[command] = description.strip()
     return settigs
 
@@ -86,15 +82,15 @@ def csv_to_json(csvFile, jsonFile):
 
 itemType = {
     "": "journalArticle",
-        "journal article": "journalArticle",
-        "preprint": "preprint",
-        "book chapter": "bookSection",
-        "conference proceedings article": "conferencePaper",
-        "editorial": "journalArticle",
-        "review": "journalArticle",
-        "report": "journalArticle",
-        "dataset": "dataset",
-        "letter": "journalArticle",
+    "journal article": "journalArticle",
+    "preprint": "preprint",
+    "book chapter": "bookSection",
+    "conference proceedings article": "conferencePaper",
+    "editorial": "journalArticle",
+    "review": "journalArticle",
+    "report": "journalArticle",
+    "dataset": "dataset",
+    "letter": "journalArticle",
 }
 
 itemTemplate = {

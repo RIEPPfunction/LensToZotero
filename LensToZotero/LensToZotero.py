@@ -1,6 +1,6 @@
 from pyzotero import zotero
 
-from utils import *
+from .utils import *
 
 
 def transfer(settingsPath):
@@ -25,4 +25,5 @@ def transfer(settingsPath):
                 template[key] = itemTemplate[key](item, key)
         list_template = zot.check_items([template])
         resp = zot.create_items(list_template)
+
     print("Transer: "+settigs["filePath"]+" to zotero")
