@@ -49,9 +49,25 @@ def get_authors(item, feild):
 
 
 def get_doc(doc_name, cwd):
-    """return the requested test document"""
     with open(os.path.join(cwd, "%s" % doc_name), "r") as f:
         return f.read()
+
+
+def delete_doc(doc_name, cwd):
+    os.remove(os.path.join(cwd, "%s" % doc_name))
+
+
+def get_settings(settingsPath):
+    settigs = {}
+    with open("C:/agri/LensToZotero/setings.txt") as fh:
+        for line in fh:
+
+            # reads each line and trims of extra the spaces
+            # and gives only the valid words
+            command, description = line.strip().split(None, 1)
+
+            settigs[command] = description.strip()
+    return settigs
 
 
 def csv_to_json(csvFile, jsonFile):
@@ -125,21 +141,20 @@ itemTemplate_list = {
 }
 
 
-def transfer(file_name):
-    library_id = 12823381
-    library_type = "user"
-    api_key = "lPlZV0aiYzZhWVmSZO6psgGA"
-    zot = zotero.Zotero(library_id, library_type, api_key)
+def transfer(settingsPath):
 
-    # csvfile = 'pubs_20231024_fix.csv'
-    jsonfile = 'pubs_20231024_fix.json'
+    settigs = get_settings(settingsPath)
 
-    csv_to_json(file_name, jsonfile)
+    zot = zotero.Zotero(settigs["library_id"],
+                        settigs["library_type"], settigs["api_key"])
 
-    # cwd = os.path.dirname(os.path.realpath("C:/agri/LensToZotero/"))
-    cwd = os.getcwd()
+    jsonfile = 'lens_json.json'
 
-    doc = json.loads(get_doc(jsonfile, cwd))
+    csv_to_json(settigs["filePath"], jsonfile)
+
+    doc = json.loads(get_doc(jsonfile, cwd=os.getcwd()))
+
+    delete_doc(jsonfile, cwd=os.getcwd())
 
     for item in doc:
         template = zot.item_template(itemType[item["Publication.Type"]])
@@ -148,3 +163,6 @@ def transfer(file_name):
                 template[key] = itemTemplate[key](item, key)
         list_template = zot.check_items([template])
         resp = zot.create_items(list_template)
+
+
+transfer("C:\agri\LensToZotero\setings.txt")
