@@ -9,6 +9,7 @@ Transfer Lens publications in csv format to Zotero
    - Your **personal library ID** is available [here](https://www.zotero.org/settings/keys), in the section `Your userID for use in API calls`
    - For **group libraries**, the ID can be found by opening the group's page: `https://www.zotero.org/groups/groupname`, and hovering over the `group settings` link. The ID is the integer after `/groups/`
 3. You'll also need<sup>†</sup> to get an **API key** [here](https://www.zotero.org/settings/keys/new)
+   - press "Allow write access" button, when you create your key
 4. Are you accessing your own Zotero library? `library_type` is `'user'`
 5. Are you accessing a shared group library? `library_type` is `'group'`.
 
